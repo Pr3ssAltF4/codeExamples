@@ -1,0 +1,16 @@
+<h1>Appointments</h1>
+{% if calendar %}
+    <ul>
+        {% for items in calendar %}
+            <li><a href="/appointmentDoctor/{{ items.id }}/{{id}}/">{{ items.title }}</a></li>
+        {% endfor %}
+    </ul>
+<form action="/create-appointment/{{ user }}/{{id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Create New Appointment" />
+</form>
+{% else %}
+    <p>You have no appointments.</p>
+<form action="/create-appointment/{{ user }}/{{id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Create New Appointment" />
+</form>
+{% endif %}

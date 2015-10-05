@@ -1,0 +1,2 @@
+USD, 5.00, AUD
+CAN, 5.90, USD

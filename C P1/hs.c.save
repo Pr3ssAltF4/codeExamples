@@ -1,0 +1,190 @@
+
+/*
+ * Home Security System
+ */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "hs_config.h"
+#include "hs_util.h"
+
+/*
+ * Room event information
+ * 	Total number of events that have been logged
+ * 	Index of the newest event (if any)
+ * 	Index of the oldest event (if any)
+ * 	Buffer of (up to) MAX_EVENTS most recent events
+ */
+struct room_t {
+	int event_count ;
+	int newest ;
+	int oldest ;
+	struct event_t buffer[MAX_EVENTS];
+};
+
+/*
+ * Rooms being monitored.
+ */
+#define MAX_ROOMS (5)
+static struct room_t rooms[MAX_ROOMS] ;
+
+/*
+ * Local support functions (static).
+ * Feel free to add more to make your work easier!
+ */
+static void process_a_reading(struct reading_t reading) ;
+static void init_rooms() ;
+
+/*
+ * Main driver function.
+ *
+ * First, initialize global data structures (rooms array).
+ *
+ * Next, read lines of text representing readings, parse these, and if there
+ * are no syntax errors, record the associated events. Syntactically incorrect
+ * input reading lines are silently discarded.
+ */
+int main() {
+	char next_line[MAX_LINELENGTH+1] ;
+	struct reading_t reading ;
+
+	init_rooms() ;
+
+	/*
+	 * Read a line of text into next_line, then attempt to parse
+	 * it as a reading line. If the line is parsable, get the
+	 * last reading structure and process it according to the
+	 * specification for the appropriate level.
+	 * See hs_util.h for useful utility functions
+	 */
+	while( read_line(next_line, MAX_LINELENGTH) != EOF) {
+		if(parse_line(next_line)) {
+			reading = get_last_reading();
+			process_a_reading(reading);
+		}
+	}
+	return 0 ;
+}
+
+static void print_reading(struct event_t event1) {
+	char timeString [MAX_LINELENGTH + 1];
+	strcpy(timeString, event1.time_stamp);
+	int sensor = event1.sensor;
+	int eventType = event1.event_id;
+	int eventData = event1.event_info;
+
+	if(eventType == 1) printf("Sensor %d @ %s: temperature reading %d degrees\n", sensor, timeString, eventData);
+	if(eventType == 2) printf("Sensor %d @ %s: carbon monoxide reading %d PPB\n", sensor, timeString, eventData);
+	if(eventType == 3) printf("Sensor %d @ %s: intruder alert\n", sensor, timeString);
+ /*
+         * Read a line of text into next_line, then attempt to parse
+         * it as a reading line. If the line is parsable, get the
+         * last reading structure and process it according to the
+         * specification for the appropriate level.
+         * See hs_util.h for useful utility functions
+         */
+        while( read_line(next_line, MAX_LINELENGTH) != EOF) {
+                if(parse_line(next_line)) {
+                        reading = get_last_reading();
+                        process_a_reading(reading);
+                }
+        }
+        return 0 ;
+}
+
+static void print_reading(struct event_t event1) {
+        char timeString [MAX_LINELENGTH + 1];
+        strcpy(timeString, event1.time_stamp);
+        int sensor = event1.sensor;
+        int eventType = event1.event_id;
+        int eventData = event1.event_info;
+
+        if(eventType == 1) printf("Sensor %d @ %s: temperature reading %d degrees\n", sensor$
+        if(eventType == 2) printf("Sensor %d @ %s: carbon monoxide reading %d PPB\n", sensor$
+        if(eventType == 3) printf("Sensor %d @ %s: intruder alert\n", sensor, timeString);
+        }
+
+
+
+static void print_room(int roomId, struct event_t latest_event) {
+        printf("*****\nHome Security System: Room %d @ %s\nTriggered by sensor %d\n%d total $
+        int index, accIndex;
+        accIndex = 0;
+        for(index = rooms[roomId].newest; accIndex < MAX_EVENTS + 1; accIndex++) {
+                print_reading(rooms[roomId].buffer[index]);
+                if(index == MAX_EVENTS) index = 0;
+                else index++;
+        }
+}
+	}
+
+
+
+static void print_room(int roomId, struct event_t latest_event) {
+	printf("*****\nHome Security System: Room %d @ %s\nTriggered by sensor %d\n%d total room events\n", roomId, latest_event.time_stamp, latest_event.sensor, rooms[roomId].event_count);
+	int index, accIndex;
+	accIndex = 0;
+	for(index = rooms[roomId].newest; accIndex < MAX_EVENTS + 1; accIndex++) {
+		print_reading(rooms[roomId].buffer[index]);
+		if(index == MAX_EVENTS) index = 0;
+		else index++;
+	}
+}
+
+/*
+ * Given a reading, process the included event for the room in the reading.
+ * T_PRINT readings are really commands; once executed they are discarded.
+ * For all other readings check to see whether an alert should be printed,
+ * then add the event to as the newest event in the room's circular buffer.
+ */
+static void process_a_reading(struct reading_t reading) {
+	int roomId = reading.room_id;
+	int i, j;
+	struct room_t changedRoom;
+	changedRoom = rooms[roomId];
+
+	if(reading.event.event_id == 9) {
+		print_room(roomId, reading.event);
+	} else {
+		if(changedRoom.newest + 1 < MAX_EVENTS && changedRoom.newest != 0) {
+			changedRoom.buffer[changedRoom.newest + 1] = reading.event;
+		} else {
+			changedRoom.newest = 0;
+			changedRoom.buffer[changedRoom.newest] = reading.event;
+			if(changedRoom.oldest != MAX_EVENTS) changedRoom.oldest += 1;
+		} changedRoom.newest += 1;
+		changedRoom.event_count += 1;
+
+		rooms[roomId] = changedRoom;
+		if(reading.event.event_id == 1 && (reading.event.event_info < 50 || reading.event.event_info > 110)) {
+			printf("Temperature alert @ %s: room %d / sensor %d / %d degrees\n", reading.event.time_stamp, roomId, reading.event.sensor, reading.event.event_info);
+		}
+		if(reading.event.event_id == 2 && (reading.event.event_info > 3000)) {
+			printf("Carbon Monoxide alert @ %s: room %d / sensor %d / %d PPB\n", reading.event.time_stamp, roomId, reading.event.sensor, reading.event.event_info);
+		}
+		if(reading.event.event_id == 3) {
+			printf("Intruder alert @ %s: room %d / sensor %d\n", reading.event.time_stamp, roomId, reading.event.sensor);
+		}
+	}
+}
+
+/*
+ * Initialize the information on all rooms so that no rooms
+ * have any events associated with them.
+ */
+static void init_rooms() {
+	int room_id ;
+
+	/*
+	 * Initialize rooms array so that all rooms have no
+	 * events associated with them.
+	 */
+
+	for( room_id = 0 ; room_id < MAX_ROOMS ; room_id++ ) {
+		rooms[room_id].event_count = 0 ;
+		rooms[room_id].newest = 0 ;
+		rooms[room_id].oldest = 0 ;
+	}
+}

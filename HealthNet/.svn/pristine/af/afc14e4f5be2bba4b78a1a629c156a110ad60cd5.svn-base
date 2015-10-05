@@ -1,0 +1,37 @@
+<ul>
+    <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        <p> Username: {{  item.user  }}</p>
+        <p> First Name: {{  item.user.first_name  }}</p>
+        <p> Last Name: {{  item.user.last_name  }}</p>
+        <p> Email: {{ item.user.email }}</p>
+        <p> Phone Number: {{ item.phone_number }} </p>
+        <p> Office Location: {{ item.office_location }}</p>
+        <p> Hospital: {{ item.hospital }}</p>
+        <p> Patients: {{apt.id}}</p>
+        {% for patient in item.listOfPatients.all %}
+            <p>&nbsp&nbsp&nbsp <a href="/patients-doctor/{{ patient.id }}/{{ item.id }}/">{{ patient }}</a></p>
+        {% endfor %}
+    </form>
+    <form action="/calendar-doctor/{{item.user.id}}/{{item.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="view calendar" />
+    </form>
+    <form action="/logout/" method = "post"> {% csrf_token %}
+        <input type="submit" value="logout" />
+    </form>
+    <form action="/doctor-update/{{item.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Update Info" />
+    </form>
+    <form action="/inbox/{{item.user.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Inbox" />
+    </form>
+    <form action="/outbox/{{item.user.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Outbox" />
+    </form>
+    <form action="/message/{{item.user.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Send Message" />
+    </form>
+    <form action="/logout/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+</ul>

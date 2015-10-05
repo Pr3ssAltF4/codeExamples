@@ -1,0 +1,10 @@
+<h1>Inbox</h1>
+{% if latest_inbox_list %}
+    <ul>
+        {% for item in latest_inbox_list %}
+            <li><a href="/view-message/{{ item.id }}/">{{ item.message_subject }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no messages.</p>
+{% endif %}

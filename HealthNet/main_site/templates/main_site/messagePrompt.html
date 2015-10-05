@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Message | HealthNet</title>
+</head>
+<body>
+    <h1>Create a new message</h1>
+    <form method="post" action="../../../messaging/templates/messaging">{% csrf_token %}
+    <br>Recipient:<br>
+    <input type="text" name="Recipient">
+    <br>Subject:<br>
+    <input type="text" name="Subject">
+    <br>Message text:<br>
+    <textarea name="message" rows = "20" cols="50"></textarea>
+    <br>
+    <input type="submit" value="Send">
+    </form>
+
+</body>
+</html>

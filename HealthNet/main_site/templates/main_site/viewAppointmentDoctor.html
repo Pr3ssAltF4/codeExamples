@@ -1,0 +1,30 @@
+{% block title %}
+<title>My Appointments | HealthNet</title>
+{% endblock %}
+{% block content %}
+<div>
+    <h1>Appointments</h1>
+    {% csrf_token %}
+    {% for this in item %}
+        <p> Username: {{ this.doctor }}</p>
+        {{this.doctor.id}}
+        <p>Title: {{this.title}}</p>
+        <p>Description: {{this.description}}</p>
+        <p>Date: {{this.date}}</p>
+    {% endfor %}
+</div>
+<p>{{item.user.id}}</p>
+
+<form action="/cancel-appointment/{{id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Cancel Appointment" />
+</form>
+<form action="/doctors/{{id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Go back" />
+</form>
+<style>
+    form {
+    font-style: italic;
+    font-size: 15px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,28 @@
+<ul>
+    <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        <p> Username: {{  item.user  }}</p>
+        <p> First Name: {{  item.user.first_name  }}</p>
+        <p> Last Name: {{  item.user.last_name  }}</p>
+        <p> Email: {{ item.user.email }}</p>
+        <p> Phone Number: {{ item.phone_number }} </p>
+        <p> Address: {{ item.address }}</p>
+        <p> Gender: {{ item.gender }}</p>
+        <p> Height in Meters: {{ item.height_in_m }}</p>
+        <p> Weight in Kilograms: {{ item.weight_in_kg }}</p>
+        <p> Age: {{ item.age }}</p>
+        <p> Initial Medical Info: {{ item.initial_medial_info }}</p>
+        <p> New Medical Info: {{ item.new_medical_info }}</p>
+        <p> Prescriptions: {{ item.prescriptions }}</p>
+        <p> Insurance:  {{ item.insurance }}</p>
+        <p> Emergency Contact:  {{ item.emergency_contact }}</p>
+        <p> Hospital: {{ item.hospital }}</p>
+        <p> Doctor: {{ item.general_practitioner }} </p>
+    </form>
+    <form action="/doctor-updates-patient/{{item.id}}/{{doctor.id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Update Medical Info or Prescriptions" />
+    </form>
+    <form action="/logout/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+</ul>
