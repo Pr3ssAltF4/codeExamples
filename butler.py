@@ -22,7 +22,7 @@ class Bug(object):
         self.issue_type = 'Bug'
         self.priority = 'Major'
         self.version = version
-        self.assignee = 'qa-auto'
+        self.assignee = 'XXXXXX'
         self.environment = environment
         self.description = description
         self.summary = summary
@@ -43,7 +43,7 @@ class Bug(object):
 # Class to run through piping, processing, and posting bugged output to JIRA.
 class Butler:
 
-    my_server = JIRA(options={'server': 'https://jira.clearsky-data.net'}, basic_auth=('qa-auto', 'XXXXXXXX'))
+    my_server = JIRA(options={'server': 'XXXXXXXX'}, basic_auth=('XXXXXXX', 'XXXXXXXX'))
 
     # The method that should be called to execute the logging of the bugs.
     def log_bug_exec(cls):
@@ -145,7 +145,7 @@ class Butler:
         print "\n\n-------------------- creating artifacts -------------------------\n\n"
 
         # Establishing setup.
-        username = 'csd-user'
+        username = 'XXXXX'
         password = 'XXXXX'
         host_keys = os.path.expanduser(os.path.join("~", ".ssh", "known_hosts"))
         driver_ip = os.environ['SSH_CONNECTION'].split(' ')[2]
