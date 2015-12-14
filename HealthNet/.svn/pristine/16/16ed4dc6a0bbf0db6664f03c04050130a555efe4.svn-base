@@ -1,8 +1,0 @@
-<h1>Activity Log</h1>
-    <ul>
-        {% for event in list_of_events %}
-            <p>Time: {{ event.time }}</p>
-            <p>Event: {{ event.activity }}</p>
-            <p></p>
-        {% endfor %}
-    </ul>
