@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load staticfiles %}
+    <title>HealthNet</title>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'main_site/css/cover.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'main_site/css/bootstrap.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <h1 class="cover-heading">Welcome to HealthNet</h1>
+            <p class="lead">HealthNet is designed to make your life easier. No matter if you're a doctor, nurse, or a patient.</p>
+            <p class="lead">
+              <a href="/registration/" class="btn btn-lg btn-default">Register</a>
+              <a href="/login/" class="btn btn-lg btn-primary">Sign In</a>
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

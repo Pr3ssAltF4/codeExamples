@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load staticfiles %}
+    <title>Personnel Register|HealthNet</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'main_site/css/bootstrap.min.css' %}" rel="stylesheet">
+
+      <!-- Custom styles for this template -->
+    <link href="{% static 'main_site/css/register.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#patient">Patient</a></li>
+                <li><a data-toggle="pill" href="#personnel">Personnel</a></li>
+            </ul>
+        <div class="tab-content">
+            <div id="patient" class="tab-pane fade in active">
+                <form method="post" action="." name="patient">{% csrf_token %}
+                {% for f in form1 %}
+                    <div class="form-group">
+                        {% if f.name == "username"%}
+                            <br>
+                            <label>Email:</label>
+                            {{ f }}
+                        {% elif f.name == "password1" %}
+                            <label>Password:</label>
+                            {{ f }}
+                        {% elif f.name == "password2" %}
+                            <label>Re-enter Password:</label>
+                            {{ f }}
+                        {% elif f.name == "insurance_id" %}
+                            <label>Insurance ID#:</label>
+                            {{ f }}
+                        {% elif f.name == "insurance_provider" %}
+                            <label>Insurance Provider:</label>
+                            {{ f }}
+                        {% elif f.name == "first_name" %}
+                            <label>First Name:</label>
+                            {{ f }}
+                        {% elif f.name == "last_name" %}
+                            <label>Last Name:</label>
+                            {{ f }}
+                        {% else %}
+                            <label>{{f.name}}:</label>
+                            {{ f }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                    <input  id="button1" class="btn btn-lg btn-primary" type="Submit" value="Register" name="personnel_form">
+                    <a href="/" class="btn btn-lg btn-default btn-block">Cancel</a>
+
+                </form>
+            </div>
+            <div id="personnel" class="tab-pane fade">
+                <form method="post" action=".">{% csrf_token %}
+                {% for f in form2 %}
+                    <div class="form-group">
+                        {% if f.name == "username"%}
+                            <br>
+                            <label>Email:</label>
+                            {{ f }}
+                        {% elif f.name == "password1" %}
+                            <label>Password:</label>
+                            {{ f }}
+                        {% elif f.name == "password2" %}
+                            <label>Re-enter Password:</label>
+                            {{ f }}
+                        {% elif f.name == "position" %}
+                            <label>Position:</label>
+                            {{ f }}
+                        {% elif f.name == "first_name" %}
+                            <label>First Name:</label>
+                            {{ f }}
+                        {% elif f.name == "last_name" %}
+                            <label>Last Name:</label>
+                            {{ f }}
+                        {% else %}
+                            <label>{{f.name}}:</label>
+                            {{ f }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="inner">
+                    <input id="button2" class="btn btn-lg btn-primary" type="Submit" value="Register" name="patient_form">
+                    <a href="/" class="btn btn-lg btn-default btn-block">Cancel</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <!--Page Javascript-->
+    <script src="{% static 'main_site/js/jquery.min.js'%}"></script>
+    <script src="{% static 'main_site/js/jquery-ui.min.js'%}"></script>
+    <script src="{% static 'main_site/js/bootstrap.min.js'%}"></script>
+    <script>
+        //add class to forms and buttons
+        $("input").attr("class","form-control");
+        $("#button1, #button2").attr("class"," btn btn-lg btn-primary btn-block");
+        //add type email to email field
+        $("#personnel #id_username").attr("type", "email");
+        $("#patient #id_username").attr("type", "email");
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<ul>
+    <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        <p> Username: {{  item.user  }}</p>
+        <p> First Name: {{  item.user.first_name  }}</p>
+        <p> Last Name: {{  item.user.last_name  }}</p>
+        <p> Email: {{ item.user.email }}</p>
+        <p> Phone Number: {{ item.phone_number }} </p>
+        <p> Hospital: {{ item.hospital }}</p>
+        <p> Doctors: </p>
+        {% for doctor in item.listOfDoctors.all %}
+            <p>&nbsp&nbsp&nbsp <a href="/doctors-other/{{ doctor.id }}/">{{ doctor }}</a></p>
+        {% endfor %}
+        <p> Patients: </p>
+        {% for patient in item.listOfPatients.all %}
+            <p>&nbsp&nbsp&nbsp <a href="/patients-other/{{ patient.id }}/">{{ patient }}</a></p>
+        {% endfor %}
+    </form>
+    <form action="/logout/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+</ul>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p>You have deleted your appointment: {{item.title}}</p>
+<form action="/patients/{{id}}/" method = "post"> {% csrf_token %}
+        <input type="submit" value="Go back" />
+</form>
+</body>
+</html>

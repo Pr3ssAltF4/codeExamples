@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard</title>
+      {% load staticfiles %}
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{% static 'main_site/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+      <!-- fullCalendar-->
+    <link rel='stylesheet' href="{% static 'main_site/css/fullcalendar.css' %}"/>
+   <link rel='stylesheet' href="{% static 'main_site/css/fullcalendar.print.css' %}" media="print"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'main_site/css/AdminLTE.min.css' %}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="{% static 'main_site/css/skins/_all-skins.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/iCheck/flat/blue.css' %}">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/morris/morris.css' %}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}">
+
+    <link rel="stylesheet" href="{% static 'main_site/css/organization.css' %}">
+  </head>
+
+{#================================================================================================================================#}
+{#==========================                                                       ===============================================#}
+{#==========================                    Sidebar Stuff                      ===============================================#}
+{#==========================                                                       ===============================================#}
+{#================================================================================================================================#}
+
+
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>Dashboard</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+
+        </nav>
+      </header>
+
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li>
+              <a onmouseover="" style="cursor: pointer; " onclick="document.getElementById('goHome').submit();">
+                  {% if ID.doctor %}
+                        <form class="form-signin" action="/doctors/{{ ID.doctor.id }}/" method="post" id="goHome"> {% csrf_token %}
+                    {% elif ID.patient %}
+                        <form class="form-signin" action="/patients/{{ ID.patient.id }}/" method="post" id="goHome"> {% csrf_token %}
+                    {% elif ID.hospitaladmin %}
+                        <form class="form-signin" action="/hospitalAdmins/{{ ID.hospitaladmin.id }}/" method="post" id="goHome"> {% csrf_token %}
+                    {% elif ID.nurse %}
+                        <form class="form-signin" action="/nurses/{{ ID.nurse.id }}/" method="post" id="goHome"> {% csrf_token %}
+                    {% endif %}
+                        <i class="fa fa-th"></i> <span onclick="this.parentNode.submit()" onmouseover="" style="cursor: pointer; white-space: pre;">  Home</span>
+                    </form>
+              </a>
+            </li>
+
+            <li>
+                <a onmouseover="" style="cursor: pointer; " onclick="document.getElementById('goCalendar').submit();">
+                    {% if ID.doctor %}
+                        <form action="/calendar/{{ID.doctor.id}}/{{ID.id}}/" method = "post" id="goCalendar"> {% csrf_token %}
+                    {% elif ID.patient %}
+                        <form action="/calendar/{{ID.patient.id}}/{{ID.id}}/" method = "post" id="goCalendar"> {% csrf_token %}
+                    {% endif %}
+                    <i class="fa fa-calendar"></i> <span onclick="this.parentNode.submit()" onmouseover="" style="cursor: pointer; white-space: pre;">  Calendar</span>
+                </form>
+                </a>
+            </li>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-envelope"></i> <span>Alerts</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li>
+                    <a onmouseover="" style="cursor: pointer;" onclick="document.getElementById('goInbox').submit();">
+                        <form action="/inbox/{{ID.id}}/" method = "post" id="goInbox"> {% csrf_token %}
+                        <i class="fa fa-circle-o"></i> <span onclick="this.parentNode.submit()" onmouseover="" style="cursor: pointer; white-space: pre;">   Inbox</span>
+                        </form>
+                    </a>
+                </li>
+                <li>
+                    {% if ID.doctor %}
+                        <a href="/message/{{ ID.id }}/"><i class="fa fa-circle-o"></i> Compose</a>
+                    {% elif ID.patient %}
+                        <a href="/message/{{ ID.id }}/"><i class="fa fa-circle-o"></i> Compose</a>
+                    {% elif ID.hospitaladmin %}
+                        <a href="/message/{{ ID.id }}/"><i class="fa fa-circle-o"></i> Compose</a>
+                    {% elif ID.nurse %}
+                        <a href="/message/{{ ID.id }}/"><i class="fa fa-circle-o"></i> Compose</a>
+                    {% endif %}
+                </li>
+              </ul>
+            </li>
+              <li>
+                  <a onmouseover="" style="cursor: pointer;" onclick="document.getElementById('goUpdate').submit();">
+                    {% if ID.doctor %}
+                        <form action="/doctor-update/{{ID.doctor.id}}/" method = "post" id="goUpdate"> {% csrf_token %}
+                    {% elif ID.patient %}
+                        <form action="/patient-update/{{ID.patient.id}}/" method = "post" id="goUpdate"> {% csrf_token %}
+                    {% elif ID.hospitaladmin %}
+                        <form action="/hospitalAdmin-update/{{ID.hospitaladmin.id}}/" method = "post" id="goUpdate"> {% csrf_token %}
+                    {% elif ID.nurse %}
+                        <form action="/nurse-update/{{ID.nurse.id}}/" method = "post" id="goUpdate"> {% csrf_token %}
+                    {% endif %}
+                    <i class="fa-user"></i> <span onclick="this.parentNode.submit()" onmouseover="" style="cursor: pointer; white-space: pre;">   Edit Account</span>
+                    </form>
+                  </a>
+              </li>
+              <li>
+                  <a onmouseover="" style="cursor: pointer;" onclick="document.getElementById('goLogout').submit();">
+              <form action="/logout/" method = "post" id="goLogout"> {% csrf_token %}
+                <i class="fa fa-circle-o text-red"></i> <span onclick="this.parentNode.submit()" onmouseover="" style="cursor: pointer; white-space: pre;">  Logout</span>
+                  </form>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+
+
+        <!-- Main content -->
+        <section class="content">
+
+<ul>
+    <form class="form-horizontal" name="LoginForm" action="/login/" method="post">
+        {% csrf_token %}
+        <p> Username: {{  item.user  }}</p>
+        <p> First Name: {{  item.user.first_name  }}</p>
+        <p> Last Name: {{  item.user.last_name  }}</p>
+        <p> Email: {{ item.user.email }}</p>
+        <p> Phone Number: {{ item.phone_number }} </p>
+        <p> Hospital: {{ item.hospital }}</p>
+    </form>
+</ul>
+</script>
+        </div>
+  </body>

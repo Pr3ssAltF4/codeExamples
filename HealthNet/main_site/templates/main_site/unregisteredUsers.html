@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard</title>
+      {% load staticfiles %}
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="{% static 'main_site/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+      <!-- fullCalendar-->
+    <link rel='stylesheet' href="{% static 'main_site/css/fullcalendar.css' %}"/>
+   <link rel='stylesheet' href="{% static 'main_site/css/fullcalendar.print.css' %}" media="print"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'main_site/css/AdminLTE.min.css' %}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="{% static 'main_site/css/skins/_all-skins.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/iCheck/flat/blue.css' %}">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/morris/morris.css' %}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="{% static 'main_site/css/plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}">
+
+    <link rel="stylesheet" href="{% static 'main_site/css/organization.css' %}">
+  </head>
+
+
+{#================================================================================================================================#}
+{#==========================                                                       ===============================================#}
+{#==========================                    Sidebar Stuff                      ===============================================#}
+{#==========================                                                       ===============================================#}
+{#================================================================================================================================#}
+
+
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>Dashboard</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+
+        </nav>
+      </header>
+
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li>
+              <a id="user" href="/hospitalAdmins/{{ item.id }}/">
+                <i class="fa fa-th"></i> <span>Home</span>
+              </a>
+            </li>
+            <li>
+                <li><a href="/view-log/{{ item.id }}/">
+                <i class="fa fa-calendar"></i> <span>System Stats</span>
+                </a></li>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-envelope"></i> <span>Alerts</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/inbox/{{item.user.id}}/"><i class="fa fa-circle-o"></i> Inbox</a></li>
+                <li><a href="/message/{{ item.user.id }}"><i class="fa fa-circle-o"></i> Compose</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="/hospitalAdmin-update/{{ item.id }}/">
+                <i class="fa-user"></i> <span>Edit Account</span>
+              </a>
+            </li>
+              <li>
+              <a href="/logout/">
+                <i class="fa fa-circle-o text-red"></i> <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+
+        <div class="col-lg-1" style="margin-left: 5%;">
+        <table class="table table-striped">
+                <thead><h3>Nurses</h3></thead>
+                <tbody>
+                    {% if not unregistered_nurses %}
+                    <tr>
+                        <td>No Unregistered Nurses</td>
+                    </tr>
+                    {% endif %}
+
+                {% for user in unregistered_nurses %}
+                    <tr>
+                        <td>
+                            <a href="/register-nurse/{{ user.id }}/{{ item.id }}/">{{ user }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+            <div class="col-lg-1" style="margin-left: 20%;">
+        <table class="table table-striped">
+                <thead><h3>Doctors</h3></thead>
+                <tbody>
+                    {% if not unregistered_doctors %}
+                    <tr>
+                        <td>No Unregistered Doctors</td>
+                    </tr>
+                    {% endif %}
+
+                {% for user in unregistered_doctors %}
+                    <tr>
+                        <td><a href="/register-doctor/{{ user.id }}/{{ item.id }}/">{{ user }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+            <div class="col-lg-1" style="margin-left: 20%;">
+        <table class="table table-striped">
+                <thead><h3>Administrators</h3></thead>
+                <tbody>
+                    {% if not unregistered_hadmins %}
+                    <tr>
+                        <td>No Unregistered Administrators</td>
+                    </tr>
+                    {% endif %}
+
+                {% for user in unregistered_hadmins %}
+                    <tr>
+                        <td><a href="/register-hospitalAdmin/{{ user.id }}/{{ item.id }}/">{{ user }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+{#================================================================================================================================#}
+{#==========================                                                       ===============================================#}
+{#==========================                      Account Info                     ===============================================#}
+{#==========================                                                       ===============================================#}
+{#================================================================================================================================#}
+
+
+
+        </section>
+
+
+
+
+
+    <!-- jQuery 2.1.4 -->
+    <script src="{% static 'main_site/css/plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="{% static 'main_site/js/bootstrap.min.js' %}"></script>
+    <!-- Morris.js charts -->
+    <script src="{% static 'main_site/js/raphael-min.js' %}"></script>
+    <script src="{% static 'main_site/css/plugins/morris/morris.min.js' %}"></script>
+    <!-- Sparkline -->
+    <script src="{% static 'main_site/css/plugins/sparkline/jquery.sparkline.min.js' %}"></script>
+    <!-- jvectormap -->
+    <script src="{% static 'main_site/css/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+    <script src="{% static 'main_site/css/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{% static 'main_site/css/plugins/knob/jquery.knob.js' %}"></script>
+    <!-- Slimscroll -->
+    <script src="{% static 'main_site/css/plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'main_site/css/plugins/fastclick/fastclick.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'main_site/js/app.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'main_site/js/demo.js' %}"></script>
+    <!-- fullCalendar -->
+    <script src="{% static 'main_site/js/fullcalendar/lib/moment.min.js'%}"></script>
+    <script src="{% static 'main_site/js/fullcalendar/fullcalendar.js'%}"></script>
+    <!-- Include Required Prerequisites -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
+
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+        </div>
+    </div>
+  </body>
