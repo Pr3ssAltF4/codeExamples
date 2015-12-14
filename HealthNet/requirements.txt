@@ -1,2 +1,0 @@
-Django == v1.8.4
-Python == v3.4.3
